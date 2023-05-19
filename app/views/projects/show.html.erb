@@ -1,0 +1,19 @@
+<h1><%= @project.name %></h1>
+<h2>Team members</h2>
+<ul>
+  <% @project.employees.each do |employee| %>
+    <li><%= link_to employee.name, employee_path(employee) %></li>
+  <% end %>
+</ul>
+
+<h2>Assign Employee:</h2>
+<%= form_tag assign_employee_project_path(@project), method: :post do %>
+  <%= select_tag :employee_id, options_from_collection_for_select(Employee.all, :id, :name) %>
+  <%= submit_tag "Assign Employee" %>
+<% end %>
+
+<h2>Unassign Employee:</h2>
+<%= form_tag unassign_employee_project_path(@project), method: :delete do %>
+  <%= select_tag :employee_id, options_from_collection_for_select(@project.employees, :id, :name) %>
+  <%= submit_tag "Unassign Employee" %>
+<% end %>

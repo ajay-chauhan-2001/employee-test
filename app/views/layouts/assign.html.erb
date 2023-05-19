@@ -1,0 +1,12 @@
+<h1>Assign Employee</h1>
+
+<%= form_with(url: assign_employee_path(@project, @employee), method: :post) do |f| %>
+  <div class="field">
+    <%= f.label :project_id %>
+    <%= f.hidden_field :project_id, value: params[:project_id] %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Assign' %>
+  </div>
+<% end %>

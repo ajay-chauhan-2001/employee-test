@@ -1,0 +1,13 @@
+<h1><%= @employee.name %></h1>
+
+<h2>Projects</h2>
+
+
+<ul>
+  <% @employee.projects.each do |project| %>
+    <li><%= link_to project.name, project_path(project) %></li>
+
+  <% end %>
+
+  
+</ul>

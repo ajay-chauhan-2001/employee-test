@@ -1,0 +1,22 @@
+<h1>All projects</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Project name</th>
+      <th>Team members</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @projects.each do |project| %>
+      <tr>
+        <td><%= link_to project.name, project_path(project) %></td>
+        <td><%= project.employees.count %></td>
+
+        
+      </tr>
+    <% end %>
+  </tbody>
+  
+</table>
+<br>
+<%= link_to "New Project", new_project_path %>
