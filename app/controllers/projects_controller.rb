@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
 
   # GET /projects or /projects.json
   def index
-    @projects = Project.all
+    @projects = Project.all.page(params[:page])
   end
 
   # GET /projects/1 or /projects/1.json
@@ -29,7 +29,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-        format.html { redirect_to project_url(@project), notice: "Project was successfully created." }
+        format.html { redirect_to project_url(@project), alert: "Project was successfully created." }
         format.json { render :show, status: :created, location: @project }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -42,7 +42,7 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        format.html { redirect_to project_url(@project), notice: "Project was successfully updated." }
+        format.html { redirect_to project_url(@project), alert: "Project was successfully updated." }
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -56,7 +56,7 @@ class ProjectsController < ApplicationController
     @project.destroy
 
     respond_to do |format|
-      format.html { redirect_to projects_url, notice: "Project was successfully destroyed." }
+      format.html { redirect_to projects_url, alert: "Project was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -67,15 +67,31 @@ class ProjectsController < ApplicationController
   end
 
   def assign_employee
-    employee = Employee.find(params[:employee_id])
-    @project.employees << employee
-    redirect_to @project, notice: "Employee assigned to project successfully."
+    @project = Project.find(params[:id])
+    @employee = Employee.find(params[:employee_id])
+
+    unless @project.employees.include?(@employee)
+      @project.employees << @employee
+      flash[:alert] = "#{@employee.name} assigned to #{@project.name} successfully."
+    else
+      flash[:alert] = "#{@employee.name} is already assigned to the #{@project.name} project."
+    end
+
+    redirect_to @project
   end
 
   def unassign_employee
-    employee = Employee.find(params[:employee_id])
-    @project.employees.delete(employee)
-    redirect_to @project, notice: "Employee unassigned from project successfully."
+    @project = Project.find(params[:id])
+    @employee = Employee.find(params[:employee_id])
+
+    if @project.employees.include?(@employee)
+      @project.employees.delete(@employee)
+      flash[:alert] = "#{@employee.name} unassigned from #{@project.name} project successfully."
+    else
+      flash[:alert] = "#{@employee.name} is not assigned to the #{@project.name} project."
+    end
+
+    redirect_to @project
   end
 
   

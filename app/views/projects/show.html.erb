@@ -1,19 +1,55 @@
-<h1><%= @project.name %></h1>
-<h2>Team members</h2>
-<ul>
-  <% @project.employees.each do |employee| %>
-    <li><%= link_to employee.name, employee_path(employee) %></li>
-  <% end %>
-</ul>
+<style>
 
-<h2>Assign Employee:</h2>
-<%= form_tag assign_employee_project_path(@project), method: :post do %>
-  <%= select_tag :employee_id, options_from_collection_for_select(Employee.all, :id, :name) %>
-  <%= submit_tag "Assign Employee" %>
-<% end %>
+strong,h4 { 
+  font-weight: bold;
+  padding-left: 15px;
+}
 
-<h2>Unassign Employee:</h2>
-<%= form_tag unassign_employee_project_path(@project), method: :delete do %>
-  <%= select_tag :employee_id, options_from_collection_for_select(@project.employees, :id, :name) %>
-  <%= submit_tag "Unassign Employee" %>
-<% end %>
+</style>
+
+<h4>Project Details</h4> 
+
+
+<p>
+  <strong>Project Name:</strong>
+  <%= @project.name %>
+</p>
+
+<table class="table table-striped table-bordered table-hover">      
+      <strong>Assign Employee : </strong>
+      <%= form_tag assign_employee_project_path(@project), method: :post do %>
+        <%= select_tag :employee_id, options_from_collection_for_select(Employee.all, :id, :name) %>
+        <%= submit_tag "Assign Employee " , class:"btn btn-primary btn-sm"%>
+      <% end %>
+
+      <strong>Unassign Employee : </strong>
+        <%= form_tag unassign_employee_project_path(@project), method: :delete do %>
+        <%= select_tag :employee_id, options_from_collection_for_select(@project.employees, :id, :name) %>
+        <%= submit_tag "Unassign Employee ", class:"btn btn-primary btn-sm" %>
+      <% end %>
+</table>
+
+<p>
+  <strong>Project Team Members:</strong>
+  
+  <table class="table table-striped table-bordered table-hover">      
+    <tr>
+      <th>Name</th>
+      
+    </tr>
+   
+    <% @project.employees.each do |emp| %>
+      <tr>
+      <td><%= link_to emp.name, employee_path(emp) %></td>
+      <td><%= link_to 'View', employee_path(emp), class:"btn btn-info btn-sm" %></td>
+        
+      </tr>
+    <% end %>
+
+    
+  </table>
+        
+
+</p>
+
+<br>

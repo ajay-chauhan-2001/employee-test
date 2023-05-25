@@ -71,3 +71,9 @@ group :test do
   gem "webdrivers"
   gem "faker"
 end
+
+gem 'bootstrap-sass', '~> 3.4.1'
+gem 'sass-rails'
+ gem "font-awesome-rails"
+gem 'jquery-rails', '~> 4.4'
+gem 'kaminari'

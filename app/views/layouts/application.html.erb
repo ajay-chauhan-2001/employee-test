@@ -10,7 +10,17 @@
     <%= javascript_importmap_tags %>
   </head>
 
+  <style>
+  .alert-success{
+    font:15px;
+    padding-left: 15px;
+
+  }
+  </style>
   <body>
+  <%= render 'layouts/navbar' %>
+  <p class=" alert-success"><%= alert %>
+  </p>
     <%= yield %>
   </body>
 </html>
